@@ -1,8 +1,13 @@
 import React from "react";
 import "./App.css";
+import CutImage from "src/components/CutImage";
 
-function App() {
-  return <div className="App"></div>;
-}
+const App = () => {
+  return (
+    <div className="App">
+      <CutImage />
+    </div>
+  );
+};
 
 export default App;
