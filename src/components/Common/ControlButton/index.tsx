@@ -10,7 +10,7 @@ const ControlButton = memo(
     return (
       <button
         onClick={handeleButton}
-        className={"rounded-sm " + cssClassString}
+        className={"rounded-md " + cssClassString}
       >
         {children}
       </button>

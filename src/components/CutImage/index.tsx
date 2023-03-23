@@ -5,6 +5,7 @@ import "@tensorflow/tfjs-backend-webgl";
 import { useCutImage } from "../hooks/useCutImage";
 import ControlButton from "../Common/ControlButton";
 import Modal from "../Common/Modal";
+import SaveImage from "./SaveImage";
 
 const CutImage = () => {
   const [detector, setDetector] = useState<poseDetection.PoseDetector>(); // openposeのモデル
@@ -25,36 +26,8 @@ const CutImage = () => {
     })();
   }, []);
 
-  const saveImage = () => {
-    // iosやandroidの場合でshareが使える時
-    if (navigator.share) {
-      fetch(cutImageTool.cutImageURL!)
-        .then((response) => response.blob())
-        .then((blob) => {
-          const file = new File([blob], "sample.jpeg", { type: blob.type });
-          navigator
-            .share({
-              files: [file],
-            })
-            .then(() => {
-              alert("完了しました。");
-            });
-        });
-    } else {
-      // パソコンなどshareが使えない時
-      const a = document.createElement("a");
-      a.style.display = "none";
-      a.href = cutImageTool.cutImageURL!;
-      a.download = "image.jpeg";
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(cutImageTool.cutImageURL!);
-      document.body.removeChild(a);
-    }
-  };
-
   const isModal = useMemo(() => {
-    if (cutImageTool.isLoading || cutImageTool.cutImageURL) {
+    if (cutImageTool.cutImageURL) {
       return (
         <Modal closeButton={() => cutImageTool.setCutImageURL(undefined)}>
           <img
@@ -62,8 +35,9 @@ const CutImage = () => {
             src={cutImageTool.cutImageURL}
             alt="cutImageTool.cutImageURL"
           />
-
-          <div onClick={() => saveImage()}>画像を保存する</div>
+          <div className="mt-10">
+            <SaveImage cutImageURL={cutImageTool.cutImageURL} />
+          </div>
         </Modal>
       );
     }
