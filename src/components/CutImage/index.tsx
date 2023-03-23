@@ -4,6 +4,7 @@ import * as poseDetection from "@tensorflow-models/pose-detection";
 import "@tensorflow/tfjs-backend-webgl";
 import { useCutImage } from "../hooks/useCutImage";
 import ControlButton from "../Common/ControlButton";
+import Modal from "../Common/Modal";
 
 const CutImage = () => {
   const [detector, setDetector] = useState<poseDetection.PoseDetector>();
@@ -24,14 +25,25 @@ const CutImage = () => {
     })();
   }, []);
 
-  useEffect(() => {
-    if (!cutImageTool.cutImageURL) return;
+  const isModal = useMemo(() => {
+    if (cutImageTool.isLoading || cutImageTool.cutImageURL) {
+      return (
+        <Modal closeButton={() => cutImageTool.setCutImageURL(undefined)}>
+          <img
+            className="w-[92vw] h-[92vw] max-h-[500px] max-w-[500px] rounded-lg"
+            src={cutImageTool.cutImageURL}
+            alt="cutImageTool.cutImageURL"
+          />
+        </Modal>
+      );
+    }
 
-    setImageURL(cutImageTool.cutImageURL);
-  }, [cutImageTool.cutImageURL]);
+    return null;
+  }, [cutImageTool.isLoading, cutImageTool.cutImageURL]);
 
   return (
     <div className="bg-gray-800 min-h-screen w-full">
+      {isModal}
       <div className="w-full py-10 text-center">
         <div className="mb-3">
           <h1 className="text-yellow-400 text-4xl md:text-6xl">

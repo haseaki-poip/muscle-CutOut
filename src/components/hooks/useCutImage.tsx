@@ -8,7 +8,7 @@ type Props = {
 export const useCutImage = ({ image, detector }: Props) => {
   const [cutImageURL, setCutImageURL] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const cutImage = useCallback(async () => {
     try {
@@ -71,9 +71,9 @@ export const useCutImage = ({ image, detector }: Props) => {
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
-      setError(true);
+      setIsError(true);
     }
   }, [image]);
 
-  return { cutImageURL, cutImage, isLoading, error };
+  return { cutImageURL, setCutImageURL, cutImage, isLoading, isError };
 };
