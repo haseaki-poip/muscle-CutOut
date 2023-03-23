@@ -29,6 +29,7 @@ const InputImage = forwardRef<HTMLImageElement, Props>(
               ref={ref}
             />
             <input
+              value="" // これがないと一つ前と同じ画像が入ってきた時onChangeが発火しない
               id="file-input"
               className="hidden"
               type="file"
