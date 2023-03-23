@@ -6,10 +6,12 @@ import { useCutImage } from "../hooks/useCutImage";
 import ControlButton from "../Common/ControlButton";
 import Modal from "../Common/Modal";
 import SaveImage from "./SaveImage";
+import Loading from "../Common/Loading";
 
 const CutImage = () => {
   const [detector, setDetector] = useState<poseDetection.PoseDetector>(); // openposeのモデル
   const [imageURL, setImageURL] = useState<string | undefined>();
+  const [isResult, setIsResult] = useState(false);
   const imageRef = useRef<HTMLImageElement>(null);
   const cutImageTool = useCutImage({
     image: imageRef.current,
@@ -27,9 +29,11 @@ const CutImage = () => {
   }, []);
 
   const isModal = useMemo(() => {
+    if (!isResult) return null;
+
     if (cutImageTool.cutImageURL) {
       return (
-        <Modal closeButton={() => cutImageTool.setCutImageURL(undefined)}>
+        <Modal closeButton={() => setIsResult(false)}>
           <img
             className="w-[92vw] h-[92vw] max-h-[500px] max-w-[500px] rounded-lg"
             src={cutImageTool.cutImageURL}
@@ -41,8 +45,21 @@ const CutImage = () => {
         </Modal>
       );
     }
-    return null;
-  }, [cutImageTool.isLoading, cutImageTool.cutImageURL]);
+
+    return (
+      <Modal closeButton={() => setIsResult(false)}>
+        <Loading />
+      </Modal>
+    );
+  }, [cutImageTool.cutImageURL, isResult]);
+
+  // detectorが生成されたタイミングで空予測をさせることで2回目以降の処理を高速化する
+  useEffect(() => {
+    if (!detector) return;
+    (async () => {
+      await cutImageTool.cutImage();
+    })();
+  }, [detector]);
 
   return (
     <div className="bg-gray-800 min-h-screen w-full">
@@ -102,7 +119,10 @@ const CutImage = () => {
             </ControlButton>
             <ControlButton
               cssClassString="bg-yellow-400 hover:bg-yellow-500 mx-8 px-8 py-2"
-              handeleButton={() => cutImageTool.cutImage()}
+              handeleButton={async () => {
+                setIsResult(true);
+                cutImageTool.cutImage();
+              }}
             >
               <svg
                 version="1.1"

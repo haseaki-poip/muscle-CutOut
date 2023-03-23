@@ -14,6 +14,8 @@ export const useCutImage = ({ image, detector }: Props) => {
   const cutImage = useCallback(async () => {
     try {
       if (!detector || !image) {
+        console.log(detector);
+        console.log(image);
         throw new Error("モデルの生成失敗失敗または画像の未取得");
       }
 
