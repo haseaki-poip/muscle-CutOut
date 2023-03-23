@@ -10,7 +10,7 @@ const Modal = memo(({ children, closeButton }: Props) => {
     <div className="w-full h-screen fixed top-0 left-0 inset-0 z-50 bg-gray-800 flex flex-col justify-center items-center">
       <div className="absolute top-0 left-0">
         <ControlButton
-          cssClassString="mx-4 my-4 px-0 py-0"
+          cssClassString="mx-4 my-4"
           handeleButton={() => closeButton()}
         >
           <svg

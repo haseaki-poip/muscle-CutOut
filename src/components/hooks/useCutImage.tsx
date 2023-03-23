@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import * as poseDetection from "@tensorflow-models/pose-detection";
 
 type Props = {
@@ -9,6 +9,7 @@ export const useCutImage = ({ image, detector }: Props) => {
   const [cutImageURL, setCutImageURL] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [blob, setBlob] = useState<Blob | null>(null);
 
   const cutImage = useCallback(async () => {
     try {
@@ -66,6 +67,13 @@ export const useCutImage = ({ image, detector }: Props) => {
       );
 
       const cutImgURL = canvas.toDataURL("image/jpeg", 1.0);
+      canvas.toBlob(
+        (blob) => {
+          setBlob(blob);
+        },
+        "image/jpeg",
+        1
+      );
 
       setCutImageURL(cutImgURL);
       setIsLoading(false);
@@ -75,5 +83,5 @@ export const useCutImage = ({ image, detector }: Props) => {
     }
   }, [image]);
 
-  return { cutImageURL, setCutImageURL, cutImage, isLoading, isError };
+  return { blob, cutImageURL, setCutImageURL, cutImage, isLoading, isError };
 };

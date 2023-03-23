@@ -7,7 +7,7 @@ import ControlButton from "../Common/ControlButton";
 import Modal from "../Common/Modal";
 
 const CutImage = () => {
-  const [detector, setDetector] = useState<poseDetection.PoseDetector>();
+  const [detector, setDetector] = useState<poseDetection.PoseDetector>(); // openposeのモデル
   const [imageURL, setImageURL] = useState<string | undefined>();
   const imageRef = useRef<HTMLImageElement>(null);
   const cutImageTool = useCutImage({
@@ -25,6 +25,34 @@ const CutImage = () => {
     })();
   }, []);
 
+  const saveImage = () => {
+    // iosやandroidの場合でshareが使える時
+    if (navigator.share) {
+      fetch(cutImageTool.cutImageURL!)
+        .then((response) => response.blob())
+        .then((blob) => {
+          const file = new File([blob], "sample.jpeg", { type: blob.type });
+          navigator
+            .share({
+              files: [file],
+            })
+            .then(() => {
+              alert("完了しました。");
+            });
+        });
+    } else {
+      // パソコンなどshareが使えない時
+      const a = document.createElement("a");
+      a.style.display = "none";
+      a.href = cutImageTool.cutImageURL!;
+      a.download = "image.jpeg";
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(cutImageTool.cutImageURL!);
+      document.body.removeChild(a);
+    }
+  };
+
   const isModal = useMemo(() => {
     if (cutImageTool.isLoading || cutImageTool.cutImageURL) {
       return (
@@ -34,10 +62,11 @@ const CutImage = () => {
             src={cutImageTool.cutImageURL}
             alt="cutImageTool.cutImageURL"
           />
+
+          <div onClick={() => saveImage()}>画像を保存する</div>
         </Modal>
       );
     }
-
     return null;
   }, [cutImageTool.isLoading, cutImageTool.cutImageURL]);
 
@@ -66,7 +95,7 @@ const CutImage = () => {
         {imageURL ? (
           <div className="flex justify-center items-center">
             <ControlButton
-              cssClassString="bg-white hover:bg-gray-300"
+              cssClassString="bg-white hover:bg-gray-300 mx-8 px-8 py-2"
               handeleButton={() => setImageURL(undefined)}
             >
               <svg
@@ -98,7 +127,7 @@ const CutImage = () => {
               </svg>
             </ControlButton>
             <ControlButton
-              cssClassString="bg-yellow-400 hover:bg-yellow-500"
+              cssClassString="bg-yellow-400 hover:bg-yellow-500 mx-8 px-8 py-2"
               handeleButton={() => cutImageTool.cutImage()}
             >
               <svg
