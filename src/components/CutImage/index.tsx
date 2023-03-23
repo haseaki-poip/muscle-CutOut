@@ -1,3 +1,5 @@
+import InputImage from "./InputImage";
+
 const CutImage = () => {
   return (
     <div className="bg-gray-800 min-h-screen w-full">
@@ -13,6 +15,8 @@ const CutImage = () => {
           </span>
         </div>
       </div>
+
+      <InputImage />
     </div>
   );
 };
