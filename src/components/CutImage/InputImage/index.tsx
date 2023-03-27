@@ -24,10 +24,14 @@ const InputImage = forwardRef<HTMLImageElement, Props>(
             className="h-full w-full flex flex-col justify-center items-center px-10 py-10"
           >
             <img
-              className="w-full h-full object-cover object-center absolute inset-0 rounded-lg"
+              className={
+                "w-full h-full object-cover object-center absolute inset-0 rounded-lg " +
+                (!imageURL ? "hidden" : "")
+              }
               src={imageURL}
               ref={ref}
             />
+
             <input
               value="" // これがないと一つ前と同じ画像が入ってきた時onChangeが発火しない
               id="file-input"
