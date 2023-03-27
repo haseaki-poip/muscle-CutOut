@@ -71,9 +71,12 @@ const CutImage = () => {
           </h1>
         </div>
         <div className="px-1 border-b-2 border-yellow-400 w-fit mx-auto cursor-pointer hover:border-white">
-          <span className="text-yellow-400 text-lg md:text-xl">
+          <a
+            href="https://github.com/haseaki-poip/muscle-CutOut"
+            className="text-yellow-400 text-lg md:text-xl"
+          >
             see description
-          </span>
+          </a>
         </div>
       </div>
 
