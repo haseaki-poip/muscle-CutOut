@@ -1,47 +1,32 @@
-# Getting Started with Create React App
+# [Muscle-Cut-Out](https://muscle-cut-out.vercel.app/)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 概要
+自分の上裸の画像からお腹をピックアップして切り取るwebアプリケーション。
+<br>
 
-## Available Scripts
+### 背景
+ダイエット中や筋トレ中は自分のお腹付近を管理したいと思います。またSNSなどにも顔は載せずお腹のみを載せることが多いと思います。そこで鏡などに写った自分の写真からお腹に着目して、自動でその部分を切り取るアプリを作りました。今まで写真を撮り、そこからトリミングをしていた作業を簡略化できます。スマホから本アプリにアクセスすれば、アプリ上で写真を撮り、自動で切り取られ、そのままシェアボタンでsnsにアップすることも可能です。あらなんて手軽。
+※ただし背中側の画像は使用できません。現段階ではお腹側のみ対応です。
+<br>
 
-In the project directory, you can run:
+### アプリの使用方法
+まず[アプリのURL](https://muscle-cut-out.vercel.app/)にアクセスし、枠をクリックすることで写真を選択、または撮影します。
+![アプリ画面1](https://github.com/haseaki-poip/muscle-CutOut/blob/readme-image/readme_images/app1.png)
 
-### `npm start`
+写真を入力したら、右下のトリミングボタンを押し、自動切り取りが開始します。アプリ起動後初回は時間が少しかかります。
+以下の写真には[フリー素材の画像](https://freephotomuscle.com/archives/photo/9185)を使用しています。
+![アプリ画面2](https://github.com/haseaki-poip/muscle-CutOut/blob/readme-image/readme_images/app2.png)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+切り取りが終了すると結果が表示されます。黄色のボタンで保存が可能です。スマホの場合は共有画面が開き、そこから画像の保存やSNSへの共有が選択できます。パソコンではローカルへの画像の保存が開始されます。
+![アプリ画面3](https://github.com/haseaki-poip/muscle-CutOut/blob/readme-image/readme_images/app3.png)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### 特長
+#### 1. TensorFlow.jsの使用
+TensorFlow.jsを使用し、フロントエンドのみで姿勢予測のモデル生成および、人体の関節点位置の予測をさせています。
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-# muscle-CutOut
+## 開発技術
+### 活用した技術
+#### フレームワーク・ライブラリ・モジュール
+- Frontend: TypeScript, React, TensorFlow.js, Tailwind
+- Backend:  not use
+- Other:    Vercel
