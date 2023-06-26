@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import InputImage from "./InputImage";
 import * as poseDetection from "@tensorflow-models/pose-detection";
 import "@tensorflow/tfjs-backend-webgl";
+import * as tf from "@tensorflow/tfjs";
 import { useCutImage } from "../hooks/useCutImage";
 import ControlButton from "../Common/ControlButton";
 import Modal from "../Common/Modal";
@@ -21,6 +22,7 @@ const CutImage = () => {
   // あらかじめモデルを生成しておく
   useEffect(() => {
     (async () => {
+      await tf.ready();
       const detector = await poseDetection.createDetector(
         poseDetection.SupportedModels.PoseNet
       );
